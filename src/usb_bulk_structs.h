@@ -45,4 +45,6 @@ extern const tUSBDBulkDevice g_sBulkDevice;
 extern unsigned char g_pucUSBTxBuffer[];
 extern unsigned char g_pucUSBRxBuffer[];
 
+void USB0_Handler(void);
+
 #endif

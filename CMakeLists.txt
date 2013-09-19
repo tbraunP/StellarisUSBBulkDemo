@@ -45,12 +45,11 @@ SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g")
 # add libs in subdirectory
 add_subdirectory (lib/StellarisCMSIS)
 add_subdirectory (lib/StellarisDriverLib)
-add_subdirectory (lib/StellarisUSBLib)
+
 
 # add -I compile headers for LIBS
 include_directories("lib/StellarisCMSIS/inc")
 include_directories("lib/StellarisDriverLib/inc")
-include_directories("lib/StellarisUSBLib/inc")
 
 include_directories("inc")
 include_directories("src")
@@ -59,9 +58,14 @@ include_directories("src")
 AUX_SOURCE_DIRECTORY("src/" SRCS)
 AUX_SOURCE_DIRECTORY("src/syscalls/" SRCSCalls)
 
+# USBLIB
+AUX_SOURCE_DIRECTORY("src/usblib" USRCS)
+AUX_SOURCE_DIRECTORY("src/usblib/device" DSRCS)
+AUX_SOURCE_DIRECTORY("src/usblib/host" HSRCS)
+SET(USBSRCS ${USRCS} ${DSRCS} ${HSRCS})
 
 # define target
-add_executable(${TARGET}.elf ${SRCS} ${SRCSCalls} ${USBLIB})
-target_link_libraries (${TARGET}.elf m c StellarisCMSIS StellarisDriverLib StellarisUSBLib)
+add_executable(${TARGET}.elf ${SRCS} ${SRCSCalls} ${USBSRCS})
+target_link_libraries (${TARGET}.elf m c StellarisCMSIS StellarisDriverLib)
 
 make_firmware(${TARGET}.elf)
